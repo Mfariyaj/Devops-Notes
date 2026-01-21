@@ -14,6 +14,15 @@ ADMIN_PASS="Admin@12345"
 ADMIN_EMAIL="admin@example.com"
 SITE_NAME="My Drupal Site"
 
+# # this is for AWS RDS mysql 
+# RDS_HOST="mysql.bksdjbck.bwcdubud.rds.aws.com"
+# RDS_ADMIN_USER="admin"
+# RDS_ADMIN_PASS="test1234"
+
+# DB_NAME="drupaldb"
+# DB_USER="drupaluser"
+# DB_PASS="Drupal@12345"
+
 echo "=============================="
 echo " Installing Apache + Drupal"
 echo "=============================="
@@ -55,6 +64,17 @@ sudo mysql -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME} DEFAULT CHARACTER SET ut
 sudo mysql -e "CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASS}';"
 sudo mysql -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'localhost';"
 sudo mysql -e "FLUSH PRIVILEGES;"
+
+# ----------------------------
+# Create DB + user on AWS RDS
+# ----------------------------
+# echo "Creating DB and user on AWS RDS..."
+# mysql -h "${RDS_HOST}" -u "${RDS_ADMIN_USER}" -p"${RDS_ADMIN_PASS}" -e "
+# CREATE DATABASE IF NOT EXISTS ${DB_NAME} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+# CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASS}';
+# GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';
+# FLUSH PRIVILEGES;
+# "
 
 # ----------------------------
 # Install Composer
